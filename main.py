@@ -16,7 +16,7 @@ CONFIG = configparser.ConfigParser(interpolation=None)
 CONFIG.read("./config.yaml")
 
 class endpoint():
-    def __init__(self, textColor: str = "white", backgroundColor: str = "on_blue", undetectedChrome: bool = True, headless: bool = False, ingo: bool = True):
+    def __init__(self, textColor: str = "white", backgroundColor: str = "on_blue", undetectedChrome: bool = True, headless: bool = True, ingo: bool = True):
         self.textColor = textColor
         self.bgColor = backgroundColor
         self.chromeDriver = Driver(uc=undetectedChrome, headless=headless, incognito=ingo)

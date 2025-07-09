@@ -20,7 +20,9 @@ class endpoint():
         self.textColor = textColor
         self.bgColor = backgroundColor
         self.chromeDriver = Driver(uc=undetectedChrome, headless=headless, incognito=ingo)
-        self.oldMessages = []
+
+        with open("./oldChat.json") as f:
+            self.oldMessages = json.load(f)
 
         self.squad = CONFIG.get("General", "freindly")
         self.threashold = int(CONFIG.get("General", "unknownThreash"))
@@ -38,11 +40,14 @@ class endpoint():
         parse = BeautifulSoup(source, 'html5lib')
 
         self.chatline = parse.find_all(class_="chat-line msg-type-system")
-        print(self.chatline)
+        with open("./oldChat.json", "wb") as f:
+            f.write(str(self.chatline).encode("utf8"))
 
+        
+        newData = self.chatline[self.chatline.index(self.oldMessages[-1]) + 1:]
         newMessages: list = []
-        for i in self.chatline:
-            string = str(i.contents[1])
+        for mes in newData:
+            string = str(mes.contents[1])
             foundTerm: str = None
             for term in self.splitList:
                 index = string.find(term)
@@ -52,15 +57,9 @@ class endpoint():
                 for message in string.split(foundTerm):
                     newMessages.append(message.strip())
 
-        temp = newMessages
-        for message in self.oldMessages:
-            if message is temp[0]:
-                temp.pop(0)
-
-        self.oldMessages = newMessages
-        self.procMessages = temp
+        self.procMessages = newMessages
         print(tc.colored(f'Parsing Complete', color=self.textColor, on_color=self.bgColor))
-        return temp
+        return newMessages
 
     def _processMessages(self):
         parsed: list = []

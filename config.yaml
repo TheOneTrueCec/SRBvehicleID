@@ -1,0 +1,7 @@
+[General]
+freindly: ┼0VER┽
+unknownThreash: 4
+
+[ProgramSettings]
+splitlist: ["destroyed", "severely damaged", "set afire", "critically damaged", "shot down"]
+knownproblems: {"IRIS-T_SLM": "germ_iris_slm"}

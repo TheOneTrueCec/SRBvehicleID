@@ -1,0 +1,5 @@
+termcolor
+html5lib
+seleniumbase
+beautifulsoup4
+requests

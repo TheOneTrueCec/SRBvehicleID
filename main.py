@@ -21,8 +21,9 @@ class endpoint():
         self.bgColor = backgroundColor
         self.chromeDriver = Driver(uc=undetectedChrome, headless=headless, incognito=ingo)
 
-        with open("./oldChat.json") as f:
-            self.oldMessages = json.load(f)
+        with open("./oldChat.json", "r", encoding="utf8") as f:
+            content = f
+            self.oldMessages = list(content)
 
         self.squad = CONFIG.get("General", "freindly")
         self.threashold = int(CONFIG.get("General", "unknownThreash"))
@@ -43,8 +44,12 @@ class endpoint():
         with open("./oldChat.json", "wb") as f:
             f.write(str(self.chatline).encode("utf8"))
 
-        
-        newData = self.chatline[self.chatline.index(self.oldMessages[-1]) + 1:]
+        try:
+            index = self.chatline.index(self.oldMessages[-1])
+        except:
+            index = 0
+        newData = self.chatline[:]
+
         newMessages: list = []
         for mes in newData:
             string = str(mes.contents[1])
